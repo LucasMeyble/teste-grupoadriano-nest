@@ -9,6 +9,7 @@ describe('DeleteAllTransactionsUseCase', () => {
     repository = {
       save: jest.fn(),
       clear: jest.fn(),
+      findAll: jest.fn(),
     };
     useCase = new DeleteAllTransactionsUseCase(repository);
   });

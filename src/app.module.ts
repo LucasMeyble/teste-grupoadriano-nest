@@ -10,6 +10,7 @@ import { ThrottlerModule } from '@nestjs/throttler';
 import { rateLimitConfig } from './config/rate-limit.config';
 import { ThrottlerGuard } from '@nestjs/throttler';
 import { DeleteAllTransactionsUseCase } from './application/use-cases/delete-transactions.use-case';
+import { GetStatisticsUseCase } from './application/use-cases/get-statistics.use-case';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { DeleteAllTransactionsUseCase } from './application/use-cases/delete-tra
   providers: [
     CreateTransactionUseCase,
     DeleteAllTransactionsUseCase,
+    GetStatisticsUseCase,
     {
       provide: TransactionRepository,
       useClass: InMemoryTransactionRepository,

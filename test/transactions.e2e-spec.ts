@@ -88,3 +88,49 @@ describe('DELETE /transactions (e2e)', () => {
     expect(response.body).toEqual({});
   });
 });
+
+describe('GET /transactions/statistics (e2e)', () => {
+
+  let app: INestApplication;
+  
+  it('deve retornar estatísticas com transações recentes', async () => {
+    const now = new Date().toISOString();
+
+    // Cria uma transação
+    await request(app.getHttpServer())
+      .post('/transactions')
+      .send({ amount: 100, timestamp: now })
+      .expect(201);
+
+    const response = await request(app.getHttpServer())
+      .get('/transactions/statistics')
+      .expect(200);
+
+    expect(response.body).toEqual({
+      count: 1,
+      sum: 100,
+      avg: 100,
+      min: 100,
+      max: 100,
+    });
+  });
+
+  it('deve retornar todos os valores como 0 se não houver transações válidas', async () => {
+    // Limpa todas as transações
+    await request(app.getHttpServer())
+      .delete('/transactions')
+      .expect(200);
+
+    const response = await request(app.getHttpServer())
+      .get('/transactions/statistics')
+      .expect(200);
+
+    expect(response.body).toEqual({
+      count: 0,
+      sum: 0,
+      avg: 0,
+      min: 0,
+      max: 0,
+    });
+  });
+});
