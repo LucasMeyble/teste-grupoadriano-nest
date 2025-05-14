@@ -8,6 +8,7 @@ describe('CreateTransactionUseCase', () => {
   beforeEach(() => {
     repository = {
       save: jest.fn(),
+      clear: jest.fn(),
     };
     useCase = new CreateTransactionUseCase(repository);
   });

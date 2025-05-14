@@ -6,6 +6,13 @@ export class InMemoryTransactionRepository implements TransactionRepository {
 
   save(transaction: Transaction): void {
     this.transactions.push(transaction);
-    console.log(this.transactions)
+  }
+  
+  findAll(): Transaction[] {
+    return this.transactions;
+  }
+
+  clear(): void {
+    this.transactions = [];
   }
 }

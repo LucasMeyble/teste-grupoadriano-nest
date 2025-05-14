@@ -1,10 +1,24 @@
-import { Controller, Post, Body, UsePipes, ValidationPipe, HttpCode, HttpException, HttpStatus } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  UsePipes,
+  ValidationPipe,
+  HttpCode,
+  HttpException,
+  HttpStatus,
+  Delete,
+} from '@nestjs/common';
 import { CreateTransactionDto } from '../dtos/create-transaction.dto';
 import { CreateTransactionUseCase } from '../../../application/use-cases/create-transaction.use-case';
+import { DeleteAllTransactionsUseCase } from '../../../application/use-cases/delete-transactions.use-case';
 
 @Controller('transactions')
 export class TransactionsController {
-  constructor(private readonly createTransactionUseCase: CreateTransactionUseCase) {}
+  constructor(
+    private readonly createTransactionUseCase: CreateTransactionUseCase,
+    private readonly deleteAllTransactionsUseCase: DeleteAllTransactionsUseCase,
+  ) {}
 
   @Post()
   @HttpCode(201)
@@ -18,5 +32,11 @@ export class TransactionsController {
       }
       throw new HttpException('Invalid data', HttpStatus.BAD_REQUEST);
     }
+  }
+
+  @Delete()
+  @HttpCode(200)
+  deleteAll(): void {
+    this.deleteAllTransactionsUseCase.execute();
   }
 }

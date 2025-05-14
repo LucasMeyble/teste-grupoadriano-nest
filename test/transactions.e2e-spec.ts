@@ -52,10 +52,39 @@ describe('POST /transactions (e2e)', () => {
     const response = await request(app.getHttpServer())
       .post('/transactions')
       .send({
-        amount: -10, // inválido
-        timestamp: 'not-a-date', // inválido
+        amount: -10,
+        timestamp: 'not-a-date',
       });
 
     expect(response.status).toBe(400);
+  });
+});
+
+describe('DELETE /transactions (e2e)', () => {
+
+  let app: INestApplication;
+
+  it('deve limpar todas as transações e retornar 200', async () => {
+    await request(app.getHttpServer())
+      .post('/transactions')
+      .send({
+        amount: 50,
+        timestamp: new Date().toISOString(),
+      })
+      .expect(201);
+
+    const response = await request(app.getHttpServer())
+      .delete('/transactions')
+      .expect(200);
+
+    expect(response.body).toEqual({});
+  });
+
+  it('deve retornar 200 mesmo sem transações existentes', async () => {
+    const response = await request(app.getHttpServer())
+      .delete('/transactions')
+      .expect(200);
+
+    expect(response.body).toEqual({});
   });
 });
