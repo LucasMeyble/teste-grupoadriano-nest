@@ -15,6 +15,17 @@ export const loggerConfig: LoggerModuleAsyncParams = {
               },
             }
           : undefined,
+
+      quietReqLogger: true,
+      customLogLevel(req, res, err) {
+        if (req.url.startsWith('/.well-known')) {
+          return 'silent';
+        }
+
+        if (res.statusCode >= 500 || err) return 'error';
+        if (res.statusCode >= 400) return 'warn';
+        return 'info';
+      },
     },
   }),
 };
