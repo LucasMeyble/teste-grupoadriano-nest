@@ -60,7 +60,7 @@ Acesse a documentação interativa em:
 GET /api-docs
 ```
 
-URL completa: [http://localhost:3000/docs](http://localhost:3000/docs)
+URL completa: [http://localhost:3000/api-docs](http://localhost:3000/api-docs)
 
 ---
 
